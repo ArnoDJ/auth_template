@@ -3,10 +3,15 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useMemo, useState } from "react"
+import { LanguageSwitcher } from "../components/LanguageSwitcher"
 import { useAuth } from "../providers/AuthProvider"
+import { useI18n } from "../providers/I18nProvider"
 import styles from "./page.module.css"
 
-const getErrorMessage = async (response: Response): Promise<string> => {
+const getErrorMessage = async (
+  response: Response,
+  fallback: string
+): Promise<string> => {
   try {
     const body = (await response.json()) as { message?: unknown }
 
@@ -24,14 +29,15 @@ const getErrorMessage = async (response: Response): Promise<string> => {
       }
     }
   } catch {
-    return "Unable to create your account right now. Try again."
+    return fallback
   }
 
-  return "Unable to create your account right now. Try again."
+  return fallback
 }
 
 export const RegisterForm = () => {
   const router = useRouter()
+  const { t } = useI18n()
   const { isAuthenticated, isHydrated } = useAuth()
   const apiUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
@@ -59,7 +65,7 @@ export const RegisterForm = () => {
     setError("")
 
     if (password !== passwordConfirmation) {
-      setError("Password confirmation does not match.")
+      setError(t("register.passwordMismatch"))
       return
     }
 
@@ -82,13 +88,13 @@ export const RegisterForm = () => {
       })
 
       if (!response.ok) {
-        setError(await getErrorMessage(response))
+        setError(await getErrorMessage(response, t("register.errorDefault")))
         return
       }
 
       router.push(`/check-email?email=${encodeURIComponent(email.trim())}`)
     } catch {
-      setError("Unable to reach the API. Check that the backend is running.")
+      setError(t("common.unreachableApi"))
     } finally {
       setIsSubmitting(false)
     }
@@ -101,27 +107,21 @@ export const RegisterForm = () => {
   return (
     <div className={styles.shell}>
       <section className={styles.brandPanel}>
-        <p className={styles.kicker}>Auth Template</p>
-        <h1>Create an account and verify your email address.</h1>
-        <p className={styles.lead}>
-          Registration creates an inactive account, sends a verification email,
-          and lets the user sign in only after the email address has been
-          confirmed.
-        </p>
+        <LanguageSwitcher />
+        <p className={styles.kicker}>{t("register.brand")}</p>
+        <h1>{t("register.title")}</h1>
+        <p className={styles.lead}>{t("register.lead")}</p>
 
         <div className={styles.notes}>
           <div className={styles.noteCard}>
             <span>API</span>
             <strong>{apiUrl}</strong>
-            <p>Configured through `NEXT_PUBLIC_API_URL`.</p>
+            <p>{t("common.apiConfigured")}</p>
           </div>
           <div className={styles.noteCard}>
-            <span>Flow</span>
-            <strong>POST /auth/register</strong>
-            <p>
-              The backend sends a verification mail instead of logging the user
-              in immediately.
-            </p>
+            <span>{t("register.flowLabel")}</span>
+            <strong>{t("register.flowValue")}</strong>
+            <p>{t("register.flowDesc")}</p>
           </div>
         </div>
       </section>
@@ -129,15 +129,15 @@ export const RegisterForm = () => {
       <section className={styles.formPanel}>
         <div className={styles.formCard}>
           <div className={styles.formHeader}>
-            <p className={styles.eyebrow}>Registration</p>
-            <h2>Create account</h2>
-            <p>After registration, the user must verify the email address.</p>
+            <p className={styles.eyebrow}>{t("register.headerTag")}</p>
+            <h2>{t("register.headerTitle")}</h2>
+            <p>{t("register.headerDesc")}</p>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.row}>
               <label className={styles.field}>
-                <span>First name</span>
+                <span>{t("register.firstName")}</span>
                 <input
                   type="text"
                   name="firstName"
@@ -151,7 +151,7 @@ export const RegisterForm = () => {
               </label>
 
               <label className={styles.field}>
-                <span>Last name</span>
+                <span>{t("register.lastName")}</span>
                 <input
                   type="text"
                   name="lastName"
@@ -166,7 +166,7 @@ export const RegisterForm = () => {
             </div>
 
             <label className={styles.field}>
-              <span>Email</span>
+              <span>{t("login.email")}</span>
               <input
                 type="email"
                 name="email"
@@ -181,12 +181,12 @@ export const RegisterForm = () => {
             </label>
 
             <label className={styles.field}>
-              <span>Password</span>
+              <span>{t("register.password")}</span>
               <input
                 type="password"
                 name="password"
                 autoComplete="new-password"
-                placeholder="Create a password"
+                placeholder={t("register.passwordPlaceholder")}
                 value={password}
                 onChange={(event) => {
                   setPassword(event.target.value)
@@ -196,12 +196,12 @@ export const RegisterForm = () => {
             </label>
 
             <label className={styles.field}>
-              <span>Confirm password</span>
+              <span>{t("register.confirmPassword")}</span>
               <input
                 type="password"
                 name="passwordConfirmation"
                 autoComplete="new-password"
-                placeholder="Repeat your password"
+                placeholder={t("register.confirmPasswordPlaceholder")}
                 value={passwordConfirmation}
                 onChange={(event) => {
                   setPasswordConfirmation(event.target.value)
@@ -217,13 +217,13 @@ export const RegisterForm = () => {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Creating account..." : "Create account"}
+              {isSubmitting ? t("register.submitting") : t("register.submit")}
             </button>
           </form>
 
           <div className={styles.footerLinks}>
-            <Link href="/login">Already have an account?</Link>
-            <span>Verification link opens the frontend verify-email page.</span>
+            <Link href="/login">{t("register.alreadyAccount")}</Link>
+            <span>{t("register.verifyInfo")}</span>
           </div>
         </div>
       </section>

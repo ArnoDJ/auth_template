@@ -2,26 +2,32 @@
 
 import Link from "next/link"
 import { useMemo, useState } from "react"
+import { LanguageSwitcher } from "../components/LanguageSwitcher"
+import { useI18n } from "../providers/I18nProvider"
 import styles from "./page.module.css"
 
 type CheckEmailClientProps = {
   email: string | null
 }
 
-const getErrorMessage = async (response: Response): Promise<string> => {
+const getErrorMessage = async (
+  response: Response,
+  fallback: string
+): Promise<string> => {
   try {
     const body = (await response.json()) as { message?: unknown }
     if (typeof body.message === "string") {
       return body.message
     }
   } catch {
-    return "Unable to resend verification email right now."
+    return fallback
   }
 
-  return "Unable to resend verification email right now."
+  return fallback
 }
 
 export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
+  const { t } = useI18n()
   const apiUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
     []
@@ -52,17 +58,15 @@ export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
 
       if (!response.ok) {
         setFeedbackType("error")
-        setFeedback(await getErrorMessage(response))
+        setFeedback(await getErrorMessage(response, t("checkEmail.resendError")))
         return
       }
 
       setFeedbackType("success")
-      setFeedback(
-        "If your account is still unverified, a new verification email has been sent."
-      )
+      setFeedback(t("checkEmail.resendSuccess"))
     } catch {
       setFeedbackType("error")
-      setFeedback("Unable to reach the API. Check that the backend is running.")
+      setFeedback(t("common.unreachableApi"))
     } finally {
       setIsSubmitting(false)
     }
@@ -71,23 +75,21 @@ export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
   return (
     <main className={styles.shell}>
       <section className={styles.card}>
-        <p className={styles.kicker}>Registration complete</p>
-        <h1>Check your email</h1>
-        <p className={styles.lead}>
-          We sent a verification link to your inbox. Open the email and click
-          the link to activate your account.
-        </p>
+        <LanguageSwitcher />
+        <p className={styles.kicker}>{t("checkEmail.kicker")}</p>
+        <h1>{t("checkEmail.title")}</h1>
+        <p className={styles.lead}>{t("checkEmail.lead")}</p>
 
         {email ? (
           <p className={styles.target}>
-            Sent to: <strong>{email}</strong>
+            {t("checkEmail.sentTo")} <strong>{email}</strong>
           </p>
         ) : null}
 
         <ol className={styles.steps}>
-          <li>Open your inbox.</li>
-          <li>Check spam or junk if you do not see it in a minute.</li>
-          <li>Click the verification link, then sign in.</li>
+          <li>{t("checkEmail.step1")}</li>
+          <li>{t("checkEmail.step2")}</li>
+          <li>{t("checkEmail.step3")}</li>
         </ol>
 
         {feedback ? (
@@ -109,13 +111,13 @@ export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
             onClick={handleResend}
             disabled={!email || isSubmitting}
           >
-            {isSubmitting ? "Resending..." : "Resend verification email"}
+            {isSubmitting ? t("checkEmail.resending") : t("checkEmail.resend")}
           </button>
           <Link className={styles.primary} href="/login">
-            Go to login
+            {t("common.goToLogin")}
           </Link>
           <Link className={styles.secondary} href="/register">
-            Back to register
+            {t("common.backToRegister")}
           </Link>
         </div>
       </section>

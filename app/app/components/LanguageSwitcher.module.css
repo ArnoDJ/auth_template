@@ -1,0 +1,23 @@
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5f554a;
+}
+
+.select {
+  min-height: 36px;
+  border: 1px solid rgba(35, 31, 26, 0.18);
+  border-radius: 10px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #1d1914;
+  font: inherit;
+}

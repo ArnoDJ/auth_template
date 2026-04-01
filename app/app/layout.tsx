@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google"
 import { AuthProvider } from "./providers/AuthProvider"
+import { I18nProvider } from "./providers/I18nProvider"
 import "./globals.css"
 
 const spaceGrotesk = Space_Grotesk({
@@ -30,7 +31,9 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${ibmPlexMono.variable}`}
     >
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <I18nProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </I18nProvider>
       </body>
     </html>
   )

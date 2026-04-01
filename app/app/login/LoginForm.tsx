@@ -3,14 +3,19 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useMemo, useState } from "react"
+import { LanguageSwitcher } from "../components/LanguageSwitcher"
 import { useAuth } from "../providers/AuthProvider"
+import { useI18n } from "../providers/I18nProvider"
 import styles from "./page.module.css"
 
 type LoginResponse = {
   accessToken?: string
 }
 
-const getErrorMessage = async (response: Response): Promise<string> => {
+const getErrorMessage = async (
+  response: Response,
+  fallback: string
+): Promise<string> => {
   try {
     const body = (await response.json()) as { message?: unknown }
 
@@ -28,14 +33,15 @@ const getErrorMessage = async (response: Response): Promise<string> => {
       }
     }
   } catch {
-    return "Unable to sign in right now. Try again."
+    return fallback
   }
 
-  return "Unable to sign in right now. Try again."
+  return fallback
 }
 
 export const LoginForm = () => {
   const router = useRouter()
+  const { t } = useI18n()
   const { isAuthenticated, isHydrated, setAccessToken } = useAuth()
   const apiUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
@@ -68,20 +74,20 @@ export const LoginForm = () => {
       })
 
       if (!response.ok) {
-        setError(await getErrorMessage(response))
+        setError(await getErrorMessage(response, t("login.errorDefault")))
         return
       }
 
       const body = (await response.json()) as LoginResponse
       if (!body.accessToken) {
-        setError("Login succeeded but no access token was returned.")
+        setError(t("login.errorNoToken"))
         return
       }
 
       setAccessToken(body.accessToken)
       router.push("/")
     } catch {
-      setError("Unable to reach the API. Check that the backend is running.")
+      setError(t("common.unreachableApi"))
     } finally {
       setIsSubmitting(false)
     }
@@ -100,23 +106,21 @@ export const LoginForm = () => {
   return (
     <div className={styles.shell}>
       <section className={styles.brandPanel}>
-        <p className={styles.kicker}>Auth Template</p>
-        <h1>Sign in to continue working inside your account.</h1>
-        <p className={styles.lead}>
-          This page talks directly to the Nest auth API, sends cookies with the
-          request, and gives you a clean place to wire the next part of the app.
-        </p>
+        <LanguageSwitcher />
+        <p className={styles.kicker}>{t("login.brand")}</p>
+        <h1>{t("login.title")}</h1>
+        <p className={styles.lead}>{t("login.lead")}</p>
 
         <div className={styles.notes}>
           <div className={styles.noteCard}>
             <span>API</span>
             <strong>{apiUrl}</strong>
-            <p>Configured through `NEXT_PUBLIC_API_URL`.</p>
+            <p>{t("common.apiConfigured")}</p>
           </div>
           <div className={styles.noteCard}>
-            <span>Flow</span>
-            <strong>POST /auth/token</strong>
-            <p>Expects the same email and password pair your backend accepts.</p>
+            <span>{t("login.flowLabel")}</span>
+            <strong>{t("login.flowValue")}</strong>
+            <p>{t("login.flowDesc")}</p>
           </div>
         </div>
       </section>
@@ -124,14 +128,14 @@ export const LoginForm = () => {
       <section className={styles.formPanel}>
         <div className={styles.formCard}>
           <div className={styles.formHeader}>
-            <p className={styles.eyebrow}>Authentication</p>
-            <h2>Login</h2>
-            <p>Use a valid account from the Auth Template backend.</p>
+            <p className={styles.eyebrow}>{t("login.headerTag")}</p>
+            <h2>{t("login.headerTitle")}</h2>
+            <p>{t("login.headerDesc")}</p>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.field}>
-              <span>Email</span>
+              <span>{t("login.email")}</span>
               <input
                 type="email"
                 name="email"
@@ -146,12 +150,12 @@ export const LoginForm = () => {
             </label>
 
             <label className={styles.field}>
-              <span>Password</span>
+              <span>{t("login.password")}</span>
               <input
                 type="password"
                 name="password"
                 autoComplete="current-password"
-                placeholder="Enter your password"
+                placeholder={t("login.passwordPlaceholder")}
                 value={password}
                 onChange={(event) => {
                   setPassword(event.target.value)
@@ -166,13 +170,13 @@ export const LoginForm = () => {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Signing in..." : "Sign in"}
+              {isSubmitting ? t("login.submitting") : t("login.submit")}
             </button>
           </form>
 
           <div className={styles.footerLinks}>
-            <Link href="/">Back to home</Link>
-            <Link href="/register">Create an account</Link>
+            <Link href="/">{t("common.backToHome")}</Link>
+            <Link href="/register">{t("login.createAccount")}</Link>
           </div>
         </div>
       </section>
