@@ -100,7 +100,7 @@ export const LoginForm = () => {
   return (
     <div className={styles.shell}>
       <section className={styles.brandPanel}>
-        <p className={styles.kicker}>BK Connect</p>
+        <p className={styles.kicker}>Auth Template</p>
         <h1>Sign in to continue working inside your account.</h1>
         <p className={styles.lead}>
           This page talks directly to the Nest auth API, sends cookies with the
@@ -126,7 +126,7 @@ export const LoginForm = () => {
           <div className={styles.formHeader}>
             <p className={styles.eyebrow}>Authentication</p>
             <h2>Login</h2>
-            <p>Use a valid account from the BK Connect backend.</p>
+            <p>Use a valid account from the Auth Template backend.</p>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>

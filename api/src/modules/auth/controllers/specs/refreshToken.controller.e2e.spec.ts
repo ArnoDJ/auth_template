@@ -18,7 +18,7 @@ import { RefreshToken } from "../../entities/refreshToken"
 import { User } from "../../entities/user"
 
 describe("RefreshTokenController (E2E)", () => {
-  const userAgent = "bk-connect-refresh-e2e-agent"
+  const userAgent = "auth-template-refresh-e2e-agent"
   const dbLockKey = 42_4242
 
   let context: E2eAppContext

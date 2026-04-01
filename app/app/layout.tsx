@@ -15,8 +15,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "BK Connect",
-  description: "Frontend application for the BK Connect platform"
+  title: "Auth Template",
+  description: "Frontend application for the Auth Template platform"
 }
 
 export default function RootLayout({

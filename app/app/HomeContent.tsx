@@ -30,7 +30,7 @@ export const HomeContent = () => {
       <div className={styles.page}>
         <section className={styles.hero}>
           <p className={styles.kicker}>Next.js Frontend</p>
-          <h1>BK Connect now has a frontend shell ready to grow.</h1>
+          <h1>Auth Template now has a frontend shell ready to grow.</h1>
           <p className={styles.lead}>
             This app is set up with the Next.js App Router, TypeScript, and
             ESLint. It is ready to connect to the Nest API and become the main

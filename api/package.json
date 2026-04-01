@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "0.0.1",
-  "description": "the api for bk-connect",
+  "description": "the api for auth-template",
   "author": "Arno De Jonghe",
   "private": true,
   "license": "MIT",

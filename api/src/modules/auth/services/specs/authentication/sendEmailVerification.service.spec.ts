@@ -77,7 +77,7 @@ describe("SendEmailVerificationService", () => {
       }
 
       if (key === "MAILGUN_FROM_NAME") {
-        return "BK Connect"
+        return "Auth Template"
       }
 
       if (key === "MAILGUN_DOMAIN") {
@@ -145,7 +145,7 @@ describe("SendEmailVerificationService", () => {
       }
 
       if (key === "MAILGUN_FROM_NAME") {
-        return "BK Connect"
+        return "Auth Template"
       }
 
       if (key === "MAILGUN_DOMAIN") {

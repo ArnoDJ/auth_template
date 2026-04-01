@@ -8,8 +8,8 @@ import {
   useSyncExternalStore
 } from "react"
 
-const authStorageKey = "bk-connect.auth"
-const authChangeEvent = "bk-connect-auth-change"
+const authStorageKey = "auth-template.auth"
+const authChangeEvent = "auth-template-auth-change"
 
 type AuthState = {
   accessToken: string | null

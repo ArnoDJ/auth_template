@@ -1,6 +1,6 @@
-# BK Connect App
+# Auth Template App
 
-Next.js frontend for BK Connect.
+Next.js frontend for Auth Template.
 
 ## Run
 

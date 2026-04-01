@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-WORKDIR /BK-Connect/api
+WORKDIR /auth-template/api
 
 COPY package*.json ./
 RUN npm install

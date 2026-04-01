@@ -41,8 +41,8 @@ export class AppModule implements NestModule {
   constructor(private readonly configService: ConfigService) {
     AppModule.port = this.configService.get<number>("PORT") ?? 4000
     AppModule.apiVersion = this.configService.get<string>("API_VERSION") ?? "1.0"
-    AppModule.apiTitle = this.configService.get<string>("API_TITLE") ?? "Bk-connect API"
-    AppModule.apiDescription = this.configService.get<string>("API_DESCRIPTION") ?? "BK-Connect backend"
+    AppModule.apiTitle = this.configService.get<string>("API_TITLE") ?? "Auth Template API"
+    AppModule.apiDescription = this.configService.get<string>("API_DESCRIPTION") ?? "Auth Template backend"
     AppModule.allowedOrigins = this.parseAllowedOrigins(
       this.configService.get<string>("ALLOWED_ORIGINS") ?? "*"
     )

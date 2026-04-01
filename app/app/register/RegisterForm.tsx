@@ -101,7 +101,7 @@ export const RegisterForm = () => {
   return (
     <div className={styles.shell}>
       <section className={styles.brandPanel}>
-        <p className={styles.kicker}>BK Connect</p>
+        <p className={styles.kicker}>Auth Template</p>
         <h1>Create an account and verify your email address.</h1>
         <p className={styles.lead}>
           Registration creates an inactive account, sends a verification email,

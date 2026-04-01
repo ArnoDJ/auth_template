@@ -98,7 +98,7 @@ describe("PasswordResetService", () => {
       }
 
       if (key === "MAILGUN_FROM_NAME") {
-        return "BK Connect"
+        return "Auth Template"
       }
 
       if (key === "MAILGUN_DOMAIN") {
@@ -185,7 +185,7 @@ describe("PasswordResetService", () => {
       }
 
       if (key === "MAILGUN_FROM_NAME") {
-        return "BK Connect"
+        return "Auth Template"
       }
 
       if (key === "MAILGUN_DOMAIN") {

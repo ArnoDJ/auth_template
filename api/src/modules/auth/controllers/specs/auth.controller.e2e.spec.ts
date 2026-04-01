@@ -24,7 +24,7 @@ jest.mock("mailgun.js", () => buildMailerSendModuleMock())
 jest.mock("form-data", () => jest.fn())
 
 describe("AuthController (E2E)", () => {
-  const userAgent = "bk-connect-e2e-agent"
+  const userAgent = "auth-template-e2e-agent"
   const dbLockKey = 42_4242
 
   let context: E2eAppContext
