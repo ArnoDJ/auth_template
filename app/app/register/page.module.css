@@ -1,0 +1,251 @@
+.shell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(28, 98, 88, 0.22), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(205, 119, 54, 0.24), transparent 30%),
+    linear-gradient(155deg, #eef1e9 0%, #f4eadb 52%, #efe1d0 100%);
+}
+
+.brandPanel {
+  display: grid;
+  align-content: center;
+  gap: 24px;
+  padding: 64px;
+}
+
+.kicker,
+.eyebrow,
+.noteCard span {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: #1f5f57;
+}
+
+.brandPanel h1 {
+  max-width: 11ch;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  color: #191612;
+  text-wrap: balance;
+}
+
+.lead {
+  max-width: 38rem;
+  font-size: 1.08rem;
+  line-height: 1.85;
+  color: #5a5045;
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 44rem;
+}
+
+.noteCard {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid rgba(33, 30, 25, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 253, 249, 0.78);
+  box-shadow: 0 16px 36px rgba(55, 48, 39, 0.08);
+}
+
+.noteCard span {
+  color: #7d6853;
+}
+
+.noteCard strong {
+  font-size: 1.15rem;
+  color: #191612;
+}
+
+.noteCard p {
+  color: #5d5348;
+  line-height: 1.65;
+}
+
+.formPanel {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 32px;
+}
+
+.formCard {
+  display: grid;
+  gap: 24px;
+  width: min(100%, 560px);
+  padding: 32px;
+  border: 1px solid rgba(30, 30, 30, 0.08);
+  border-radius: 28px;
+  background: rgba(255, 254, 250, 0.92);
+  box-shadow: 0 24px 80px rgba(50, 43, 35, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.formHeader {
+  display: grid;
+  gap: 10px;
+}
+
+.eyebrow {
+  color: #8a4617;
+}
+
+.formHeader h2 {
+  font-size: 2.4rem;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #191511;
+}
+
+.formHeader p {
+  color: #5f554a;
+  line-height: 1.7;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2a241f;
+}
+
+.field input {
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(42, 36, 31, 0.12);
+  border-radius: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.92);
+  font: inherit;
+  color: #1d1914;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.field input:focus {
+  border-color: rgba(138, 70, 23, 0.52);
+  box-shadow: 0 0 0 4px rgba(138, 70, 23, 0.12);
+}
+
+.error,
+.success {
+  padding: 14px 16px;
+  border-radius: 16px;
+  line-height: 1.6;
+}
+
+.error {
+  border: 1px solid rgba(165, 52, 42, 0.18);
+  background: rgba(203, 84, 68, 0.1);
+  color: #8a2518;
+}
+
+.success {
+  border: 1px solid rgba(32, 108, 87, 0.18);
+  background: rgba(31, 95, 87, 0.08);
+  color: #184941;
+}
+
+.submit {
+  min-height: 54px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #a6531f 0%, #7e3f18 100%);
+  color: #fff6ee;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease,
+    opacity 160ms ease;
+}
+
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: saturate(1.08);
+  }
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.95rem;
+}
+
+.footerLinks a {
+  color: #8a4617;
+}
+
+.footerLinks span {
+  max-width: 20rem;
+  text-align: right;
+  color: #6b6258;
+  line-height: 1.5;
+}
+
+@media (max-width: 960px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .brandPanel {
+    padding: 40px 24px 12px;
+  }
+
+  .notes,
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .formPanel {
+    padding: 24px;
+  }
+
+  .footerLinks {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footerLinks span {
+    max-width: none;
+    text-align: left;
+  }
+}

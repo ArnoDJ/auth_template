@@ -1,0 +1,22 @@
+These are the rules I want you to always follow when working on this project.
+
+1. Every service should only have one public function, execute.
+2. Everything should be typed correctly
+3. Never put type definitions in the service files. Put them in the types or dto folder.
+4. Run "npm run lint" once in a while and especially before you tell me something is done.
+all eslint errors should be fixed.
+5. For every service you create tests, which run tranasctionally using the helper files
+6. For every controller you create tests files, they can't be tranasctional.
+7. Run tests when you change something on a service or controller. You must only run the tests
+for things you changed, not all of them, if any tests fail or give errors. fix them
+8. New endpoints must return the same the data the old ones did
+9. There must be a corresponding endpoint for every endpoint in the old api.
+10. Don't make services or files in general too long, 350 lines is a hard limit
+11. Make the public execute function read like an instruction manual, with readable private functions
+12. No set-timeout in tests or anywhere else for that matter.
+13. Never write N+1 queries, this slows down response times
+14. Follow these folder structure rules.
+in nestjs, make it so that logic is separated in logical modules, these should cover bigger domains.
+Every module should have a controllers, services and specs folder. And aditionally a
+types, enums en mappers folder. Similar controllers, services should be mapped together aswell.
+

@@ -1,0 +1,134 @@
+.shell {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(20, 92, 82, 0.2), transparent 30%),
+    radial-gradient(circle at 88% 82%, rgba(186, 95, 30, 0.2), transparent 33%),
+    linear-gradient(160deg, #f0f4ec 0%, #f4ede0 52%, #efe4d8 100%);
+}
+
+.card {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 640px);
+  padding: 36px;
+  border: 1px solid rgba(29, 29, 29, 0.08);
+  border-radius: 28px;
+  background: rgba(255, 253, 249, 0.9);
+  box-shadow: 0 24px 70px rgba(50, 43, 35, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.kicker {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1f5f57;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  color: #181511;
+}
+
+.lead {
+  margin: 0;
+  color: #60564b;
+  line-height: 1.75;
+}
+
+.target {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 95, 87, 0.16);
+  background: rgba(31, 95, 87, 0.08);
+  color: #204f48;
+}
+
+.target strong {
+  color: #133630;
+}
+
+.steps {
+  display: grid;
+  gap: 10px;
+  margin: 2px 0 6px;
+  padding-left: 1.2rem;
+  color: #302a23;
+  line-height: 1.65;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primary,
+.secondary,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  background: linear-gradient(135deg, #a6531f 0%, #7e3f18 100%);
+  color: #fff6ee;
+}
+
+.secondary {
+  border: 1px solid rgba(35, 31, 26, 0.15);
+  background: #fffdfa;
+  color: #3c342c;
+}
+
+.ghost {
+  border: 1px solid rgba(35, 31, 26, 0.2);
+  background: rgba(255, 255, 255, 0.4);
+  color: #302920;
+}
+
+.ghost:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.feedback {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(31, 95, 87, 0.16);
+  background: rgba(31, 95, 87, 0.08);
+  color: #204f48;
+}
+
+.error {
+  border-color: rgba(165, 52, 42, 0.18);
+  background: rgba(203, 84, 68, 0.1);
+  color: #8a2518;
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: 26px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

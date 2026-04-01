@@ -1,0 +1,10 @@
+{
+  "eslint.workingDirectories": [
+    {
+      "directory": "api",
+      "changeProcessCWD": true
+    }
+  ],
+  "eslint.validate": ["typescript"],
+  "typescript.tsdk": "api/node_modules/typescript/lib"
+}
