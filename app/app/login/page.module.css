@@ -1,6 +1,6 @@
 .shell {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   min-height: 100vh;
   background:
     radial-gradient(circle at top right, rgba(27, 94, 84, 0.25), transparent 28%),
@@ -9,28 +9,20 @@
 }
 
 .brandPanel {
+  position: relative;
   display: grid;
   align-content: center;
-  gap: 24px;
-  padding: 64px;
-}
-
-.kicker,
-.eyebrow,
-.noteCard span {
-  font-family: var(--font-ibm-plex-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.kicker {
-  color: #86491f;
+  justify-items: start;
+  gap: 20px;
+  padding: 72px 72px 72px 80px;
+  overflow: hidden;
 }
 
 .brandPanel h1 {
-  max-width: 10ch;
-  font-size: clamp(3.2rem, 7vw, 6.2rem);
+  position: relative;
+  z-index: 2;
+  max-width: 9ch;
+  font-size: clamp(3.1rem, 5.8vw, 5.6rem);
   line-height: 0.95;
   letter-spacing: -0.06em;
   color: #1d1914;
@@ -38,48 +30,31 @@
 }
 
 .lead {
-  max-width: 36rem;
+  position: relative;
+  z-index: 2;
+  max-width: 38rem;
   font-size: 1.08rem;
-  line-height: 1.85;
-  color: #544a40;
+  line-height: 1.8;
+  color: #f6efe4;
 }
 
-.notes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  max-width: 42rem;
+.brandVector {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.96;
 }
 
-.noteCard {
-  display: grid;
-  gap: 8px;
-  padding: 20px;
-  border: 1px solid rgba(34, 28, 24, 0.08);
-  border-radius: 20px;
-  background: rgba(255, 252, 247, 0.72);
-  box-shadow: 0 16px 36px rgba(54, 47, 39, 0.08);
-}
-
-.noteCard span {
-  color: #82634c;
-}
-
-.noteCard strong {
-  font-size: 1.15rem;
-  color: #1d1914;
-}
-
-.noteCard p {
-  color: #5e5449;
-  line-height: 1.65;
+.brandVector svg {
+  width: 100%;
+  height: 100%;
 }
 
 .formPanel {
   display: grid;
   align-content: center;
   justify-items: center;
-  padding: 32px;
+  padding: 40px 40px 40px 24px;
 }
 
 .formCard {
@@ -90,17 +65,12 @@
   border: 1px solid rgba(30, 30, 30, 0.08);
   border-radius: 28px;
   background: rgba(255, 254, 250, 0.92);
-  box-shadow: 0 24px 80px rgba(50, 43, 35, 0.12);
+  box-shadow: 18px 24px 58px rgba(45, 40, 34, 0.2);
   backdrop-filter: blur(12px);
 }
 
 .formHeader {
   display: grid;
-  gap: 10px;
-}
-
-.eyebrow {
-  color: #1f5f57;
 }
 
 .formHeader h2 {
@@ -108,11 +78,6 @@
   line-height: 1;
   letter-spacing: -0.05em;
   color: #191511;
-}
-
-.formHeader p {
-  color: #5f554a;
-  line-height: 1.7;
 }
 
 .form {
@@ -180,8 +145,8 @@
   width: 34px;
   height: 34px;
   border: 0;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.92);
+  border-radius: 0;
+  background: transparent;
   cursor: pointer;
   color: #3b332b;
 }
@@ -279,17 +244,16 @@
 @media (max-width: 960px) {
   .shell {
     grid-template-columns: 1fr;
+    place-items: center;
   }
 
   .brandPanel {
-    padding: 40px 24px 12px;
-  }
-
-  .notes {
-    grid-template-columns: 1fr;
+    display: none;
   }
 
   .formPanel {
+    width: 100%;
+    max-width: 560px;
     padding: 24px;
   }
 

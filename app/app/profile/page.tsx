@@ -1,8 +1,7 @@
 "use client"
 
-import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { FormEvent, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { LanguageSwitcher } from "../components/LanguageSwitcher"
 import { DashboardSidebar } from "../home/DashboardSidebar"
 import { useAuth } from "../providers/AuthProvider"
@@ -17,7 +16,7 @@ type CurrentUser = {
   email: string
 }
 
-type ActiveProfileModal = "name" | "email" | null
+type ActiveProfileModal = "name" | "email" | "password" | null
 
 const getErrorMessage = async (
   response: Response,
@@ -159,10 +158,7 @@ export default function ProfilePage() {
     }
   }, [accessToken, apiUrl, isAuthenticated, isHydrated])
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    event.preventDefault()
+  const executePasswordChange = async (): Promise<void> => {
     setError("")
     setSuccess("")
 
@@ -203,6 +199,7 @@ export default function ProfilePage() {
       setNewPasswordConfirmation("")
     } catch {
       setError(t("common.unreachableApi"))
+      return
     } finally {
       setIsSubmitting(false)
     }
@@ -216,6 +213,12 @@ export default function ProfilePage() {
     `${modalFirstName || currentUser?.firstName || ""} ${modalLastName || currentUser?.lastName || ""}`.trim() ||
     "User"
   const profileEmail = modalEmail || currentUser?.email || "-"
+  const profileInitials = profileName
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("")
 
   const openNameModal = (): void => {
     setModalError("")
@@ -228,15 +231,32 @@ export default function ProfilePage() {
 
   const openEmailModal = (): void => {
     setModalError("")
+    setError("")
+    setSuccess("")
     setShowModalPassword(false)
     setModalEmail(currentUser?.email ?? modalEmail)
     setModalPassword("")
     setActiveModal("email")
   }
 
+  const openPasswordModal = (): void => {
+    setModalError("")
+    setError("")
+    setSuccess("")
+    setCurrentPassword("")
+    setNewPassword("")
+    setNewPasswordConfirmation("")
+    setShowCurrentPassword(false)
+    setShowNewPassword(false)
+    setShowNewPasswordConfirmation(false)
+    setActiveModal("password")
+  }
+
   const closeModal = (): void => {
     setActiveModal(null)
     setModalError("")
+    setError("")
+    setSuccess("")
     setShowModalPassword(false)
     setModalPassword("")
   }
@@ -304,66 +324,78 @@ export default function ProfilePage() {
 
         <div className={dashboardStyles.dashboardMain}>
           <section className={styles.profilePanel}>
-            <p className={styles.kicker}>{t("profile.kicker")}</p>
             <h1>{t("profile.title")}</h1>
-            <p className={styles.lead}>{t("profile.lead")}</p>
 
-            <div className={styles.identityList}>
-              <div className={styles.identityItem}>
-                <div className={styles.identityText}>
-                  <span>{t("profile.name")}</span>
-                  <strong>{profileName}</strong>
+            <section className={styles.profileTop}>
+              <section className={styles.profileIdentityHeader}>
+                <div className={styles.profileAvatar} aria-hidden="true">
+                  {profileInitials || "U"}
                 </div>
                 <button
-                  className={styles.identityEdit}
+                  className={styles.profileAvatarButton}
                   type="button"
-                  aria-label={t("profile.editNameTitle")}
-                  onClick={openNameModal}
                 >
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M4 20h4l10.2-10.2a1.9 1.9 0 0 0 0-2.7l-1.3-1.3a1.9 1.9 0 0 0-2.7 0L4 16v4Z"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="m12.5 6.5 5 5"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  {t("profile.changePhoto")}
                 </button>
-              </div>
-              <div className={styles.identityItem}>
-                <div className={styles.identityText}>
-                  <span>{t("profile.email")}</span>
-                  <strong>{profileEmail}</strong>
+              </section>
+
+              <div className={styles.identityList}>
+                <div className={styles.identityItem}>
+                  <div className={styles.identityText}>
+                    <span>{t("profile.name")}</span>
+                    <strong>{profileName}</strong>
+                  </div>
+                  <button
+                    className={styles.identityEdit}
+                    type="button"
+                    aria-label={t("profile.editNameTitle")}
+                    onClick={openNameModal}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path
+                        d="M4 20h4l10.2-10.2a1.9 1.9 0 0 0 0-2.7l-1.3-1.3a1.9 1.9 0 0 0-2.7 0L4 16v4Z"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="m12.5 6.5 5 5"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <button
-                  className={styles.identityEdit}
-                  type="button"
-                  aria-label={t("profile.editEmailTitle")}
-                  onClick={openEmailModal}
-                >
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M4 20h4l10.2-10.2a1.9 1.9 0 0 0 0-2.7l-1.3-1.3a1.9 1.9 0 0 0-2.7 0L4 16v4Z"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="m12.5 6.5 5 5"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
+                <div className={styles.identityItem}>
+                  <div className={styles.identityText}>
+                    <span>{t("profile.email")}</span>
+                    <strong>{profileEmail}</strong>
+                  </div>
+                  <button
+                    className={styles.identityEdit}
+                    type="button"
+                    aria-label={t("profile.editEmailTitle")}
+                    onClick={openEmailModal}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path
+                        d="M4 20h4l10.2-10.2a1.9 1.9 0 0 0 0-2.7l-1.3-1.3a1.9 1.9 0 0 0-2.7 0L4 16v4Z"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="m12.5 6.5 5 5"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
-            </div>
+            </section>
 
             <section className={styles.settingsSection}>
               <h2>{t("profile.languageTitle")}</h2>
@@ -372,127 +404,15 @@ export default function ProfilePage() {
 
             <section className={styles.settingsSection}>
               <h2>{t("profile.passwordTitle")}</h2>
-              <form className={styles.form} onSubmit={handleSubmit}>
-                <label className={styles.field}>
-                  <span>{t("profile.currentPassword")}</span>
-                  <div className={styles.passwordWrap}>
-                    <input
-                      className={styles.passwordInput}
-                      type={showCurrentPassword ? "text" : "password"}
-                      name="currentPassword"
-                      autoComplete="current-password"
-                      placeholder={t("profile.currentPasswordPlaceholder")}
-                      value={currentPassword}
-                      onChange={(event) => {
-                        setCurrentPassword(event.target.value)
-                      }}
-                      required
-                    />
-                    <button
-                      className={styles.passwordToggle}
-                      type="button"
-                      aria-label={
-                        showCurrentPassword
-                          ? t("common.hidePassword")
-                          : t("common.showPassword")
-                      }
-                      onClick={() => {
-                        setShowCurrentPassword((value) => !value)
-                      }}
-                    >
-                      <span className={styles.eyeIcon} aria-hidden="true">
-                        <EyeIcon isVisible={showCurrentPassword} />
-                      </span>
-                    </button>
-                  </div>
-                </label>
-
-                <label className={styles.field}>
-                  <span>{t("profile.newPassword")}</span>
-                  <div className={styles.passwordWrap}>
-                    <input
-                      className={styles.passwordInput}
-                      type={showNewPassword ? "text" : "password"}
-                      name="newPassword"
-                      autoComplete="new-password"
-                      placeholder={t("profile.newPasswordPlaceholder")}
-                      value={newPassword}
-                      onChange={(event) => {
-                        setNewPassword(event.target.value)
-                      }}
-                      required
-                    />
-                    <button
-                      className={styles.passwordToggle}
-                      type="button"
-                      aria-label={
-                        showNewPassword
-                          ? t("common.hidePassword")
-                          : t("common.showPassword")
-                      }
-                      onClick={() => {
-                        setShowNewPassword((value) => !value)
-                      }}
-                    >
-                      <span className={styles.eyeIcon} aria-hidden="true">
-                        <EyeIcon isVisible={showNewPassword} />
-                      </span>
-                    </button>
-                  </div>
-                </label>
-
-                <label className={styles.field}>
-                  <span>{t("profile.confirmPassword")}</span>
-                  <div className={styles.passwordWrap}>
-                    <input
-                      className={styles.passwordInput}
-                      type={showNewPasswordConfirmation ? "text" : "password"}
-                      name="newPasswordConfirmation"
-                      autoComplete="new-password"
-                      placeholder={t("profile.confirmPasswordPlaceholder")}
-                      value={newPasswordConfirmation}
-                      onChange={(event) => {
-                        setNewPasswordConfirmation(event.target.value)
-                      }}
-                      required
-                    />
-                    <button
-                      className={styles.passwordToggle}
-                      type="button"
-                      aria-label={
-                        showNewPasswordConfirmation
-                          ? t("common.hidePassword")
-                          : t("common.showPassword")
-                      }
-                      onClick={() => {
-                        setShowNewPasswordConfirmation((value) => !value)
-                      }}
-                    >
-                      <span className={styles.eyeIcon} aria-hidden="true">
-                        <EyeIcon isVisible={showNewPasswordConfirmation} />
-                      </span>
-                    </button>
-                  </div>
-                </label>
-
-                {error ? <p className={styles.error}>{error}</p> : null}
-                {success ? <p className={styles.success}>{success}</p> : null}
-
-                <button
-                  className={styles.submit}
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting
-                    ? t("profile.passwordUpdating")
-                    : t("profile.passwordSubmit")}
-                </button>
-              </form>
+              <button
+                className={styles.passwordModalTrigger}
+                type="button"
+                onClick={openPasswordModal}
+              >
+                {t("profile.passwordTitle")}
+              </button>
             </section>
 
-            <Link className={styles.link} href="/">
-              {t("profile.backToDashboard")}
-            </Link>
           </section>
         </div>
       </section>
@@ -524,17 +444,14 @@ export default function ProfilePage() {
             <h2 id="profile-edit-modal-title">
               {activeModal === "email"
                 ? t("profile.editEmailTitle")
-                : t("profile.editNameTitle")}
+                : activeModal === "name"
+                  ? t("profile.editNameTitle")
+                  : t("profile.passwordTitle")}
             </h2>
 
             <div className={styles.modalForm}>
               {activeModal === "email" ? (
                 <>
-                  <label className={styles.modalField}>
-                    <span>{t("profile.currentEmail")}</span>
-                    <p>{currentUser?.email ?? "-"}</p>
-                  </label>
-
                   <label className={styles.modalField}>
                     <span>{t("profile.newEmail")}</span>
                     <input
@@ -548,7 +465,7 @@ export default function ProfilePage() {
                     />
                   </label>
                 </>
-              ) : (
+              ) : activeModal === "name" ? (
                 <>
                   <label className={styles.modalField}>
                     <span>{t("profile.firstName")}</span>
@@ -573,6 +490,107 @@ export default function ProfilePage() {
                     />
                   </label>
                 </>
+              ) : (
+                <div className={styles.form}>
+                  <label className={styles.field}>
+                    <span>{t("profile.currentPassword")}</span>
+                    <div className={styles.passwordWrap}>
+                      <input
+                        className={styles.passwordInput}
+                        type={showCurrentPassword ? "text" : "password"}
+                        autoComplete="current-password"
+                        placeholder={t("profile.currentPasswordPlaceholder")}
+                        value={currentPassword}
+                        onChange={(event) => {
+                          setCurrentPassword(event.target.value)
+                          setError("")
+                        }}
+                      />
+                      <button
+                        className={styles.passwordToggle}
+                        type="button"
+                        aria-label={
+                          showCurrentPassword
+                            ? t("common.hidePassword")
+                            : t("common.showPassword")
+                        }
+                        onClick={() => {
+                          setShowCurrentPassword((value) => !value)
+                        }}
+                      >
+                        <span className={styles.eyeIcon} aria-hidden="true">
+                          <EyeIcon isVisible={showCurrentPassword} />
+                        </span>
+                      </button>
+                    </div>
+                  </label>
+
+                  <label className={styles.field}>
+                    <span>{t("profile.newPassword")}</span>
+                    <div className={styles.passwordWrap}>
+                      <input
+                        className={styles.passwordInput}
+                        type={showNewPassword ? "text" : "password"}
+                        autoComplete="new-password"
+                        placeholder={t("profile.newPasswordPlaceholder")}
+                        value={newPassword}
+                        onChange={(event) => {
+                          setNewPassword(event.target.value)
+                          setError("")
+                        }}
+                      />
+                      <button
+                        className={styles.passwordToggle}
+                        type="button"
+                        aria-label={
+                          showNewPassword
+                            ? t("common.hidePassword")
+                            : t("common.showPassword")
+                        }
+                        onClick={() => {
+                          setShowNewPassword((value) => !value)
+                        }}
+                      >
+                        <span className={styles.eyeIcon} aria-hidden="true">
+                          <EyeIcon isVisible={showNewPassword} />
+                        </span>
+                      </button>
+                    </div>
+                  </label>
+
+                  <label className={styles.field}>
+                    <span>{t("profile.confirmPassword")}</span>
+                    <div className={styles.passwordWrap}>
+                      <input
+                        className={styles.passwordInput}
+                        type={showNewPasswordConfirmation ? "text" : "password"}
+                        autoComplete="new-password"
+                        placeholder={t("profile.confirmPasswordPlaceholder")}
+                        value={newPasswordConfirmation}
+                        onChange={(event) => {
+                          setNewPasswordConfirmation(event.target.value)
+                          setError("")
+                        }}
+                      />
+                      <button
+                        className={styles.passwordToggle}
+                        type="button"
+                        aria-label={
+                          showNewPasswordConfirmation
+                            ? t("common.hidePassword")
+                            : t("common.showPassword")
+                        }
+                        onClick={() => {
+                          setShowNewPasswordConfirmation((value) => !value)
+                        }}
+                      >
+                        <span className={styles.eyeIcon} aria-hidden="true">
+                          <EyeIcon isVisible={showNewPasswordConfirmation} />
+                        </span>
+                      </button>
+                    </div>
+                  </label>
+                </div>
               )}
 
               {activeModal === "email" ? (
@@ -611,18 +629,35 @@ export default function ProfilePage() {
             </div>
 
             {modalError ? <p className={styles.error}>{modalError}</p> : null}
+            {error ? <p className={styles.error}>{error}</p> : null}
+            {success ? <p className={styles.success}>{success}</p> : null}
 
             <div className={styles.modalActions}>
               <button className={styles.modalCancel} type="button" onClick={closeModal}>
                 {t("profile.modalCancel")}
               </button>
-              <button
-                className={styles.modalConfirm}
-                type="button"
-                onClick={handleModalConfirm}
-              >
-                {t("profile.modalConfirm")}
-              </button>
+              {activeModal === "password" ? (
+                <button
+                  className={styles.modalConfirm}
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() => {
+                    void executePasswordChange()
+                  }}
+                >
+                  {isSubmitting
+                    ? t("profile.passwordUpdating")
+                    : t("profile.passwordSubmit")}
+                </button>
+              ) : (
+                <button
+                  className={styles.modalConfirm}
+                  type="button"
+                  onClick={handleModalConfirm}
+                >
+                  {t("profile.modalConfirm")}
+                </button>
+              )}
             </div>
           </section>
         </div>

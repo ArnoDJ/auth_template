@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useMemo, useState } from "react"
-import { LanguageSwitcher } from "../components/LanguageSwitcher"
 import { useAuth } from "../providers/AuthProvider"
 import { useI18n } from "../providers/I18nProvider"
 import styles from "./page.module.css"
@@ -41,7 +40,7 @@ const getErrorMessage = async (
 
 export const LoginForm = () => {
   const router = useRouter()
-  const { t } = useI18n()
+  const { t, locale, locales, setLocale } = useI18n()
   const { isAuthenticated, isHydrated, setAccessToken } = useAuth()
   const apiUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
@@ -100,6 +99,17 @@ export const LoginForm = () => {
     }
   }, [isAuthenticated, isHydrated, router])
 
+  useEffect(() => {
+    const browserLocale = window.navigator.language.toLowerCase().split("-")[0]
+    const nextLocale = locales.includes(browserLocale as (typeof locales)[number])
+      ? (browserLocale as (typeof locales)[number])
+      : "en"
+
+    if (nextLocale !== locale) {
+      setLocale(nextLocale)
+    }
+  }, [locale, locales, setLocale])
+
   if (isHydrated && isAuthenticated) {
     return null
   }
@@ -107,31 +117,47 @@ export const LoginForm = () => {
   return (
     <div className={styles.shell}>
       <section className={styles.brandPanel}>
-        <LanguageSwitcher />
-        <p className={styles.kicker}>{t("login.brand")}</p>
         <h1>{t("login.title")}</h1>
         <p className={styles.lead}>{t("login.lead")}</p>
-
-        <div className={styles.notes}>
-          <div className={styles.noteCard}>
-            <span>API</span>
-            <strong>{apiUrl}</strong>
-            <p>{t("common.apiConfigured")}</p>
-          </div>
-          <div className={styles.noteCard}>
-            <span>{t("login.flowLabel")}</span>
-            <strong>{t("login.flowValue")}</strong>
-            <p>{t("login.flowDesc")}</p>
-          </div>
+        <div className={styles.brandVector} aria-hidden="true">
+          <svg viewBox="0 0 680 520" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="tealGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#1f5f57" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#0f3b41" stopOpacity="0.6" />
+              </linearGradient>
+            </defs>
+            <rect width="680" height="520" fill="transparent" />
+            <circle cx="152" cy="106" r="118" fill="url(#tealGlow)" />
+            <circle cx="342" cy="420" r="128" fill="url(#tealGlow)" />
+            <path
+              d="M0 356C120 296 218 264 318 276c86 10 165 44 362 190V520H0Z"
+              fill="#11444a"
+              fillOpacity="0.78"
+            />
+            <path
+              d="M0 408c172-46 258-58 364-10 84 40 124 72 316 122"
+              stroke="#69b7a7"
+              strokeOpacity="0.5"
+              strokeWidth="2.2"
+              fill="none"
+            />
+            <path
+              d="M118 168c36-24 64-28 93-11 20 12 32 30 59 46 29 17 59 13 89-12"
+              stroke="#8dd8c8"
+              strokeOpacity="0.62"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
         </div>
       </section>
 
       <section className={styles.formPanel}>
         <div className={styles.formCard}>
           <div className={styles.formHeader}>
-            <p className={styles.eyebrow}>{t("login.headerTag")}</p>
             <h2>{t("login.headerTitle")}</h2>
-            <p>{t("login.headerDesc")}</p>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>

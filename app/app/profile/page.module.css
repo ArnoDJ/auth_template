@@ -1,7 +1,7 @@
 .profilePanel {
   display: grid;
   gap: 18px;
-  width: min(100%, 760px);
+  width: 100%;
   padding: 32px;
   border: 1px solid rgba(33, 33, 33, 0.08);
   border-radius: 24px;
@@ -23,10 +23,49 @@
   letter-spacing: -0.04em;
 }
 
-.lead {
-  margin: 0;
-  color: #51473b;
-  line-height: 1.7;
+.profileTop {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 48px;
+}
+
+.profileIdentityHeader {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: fit-content;
+}
+
+.profileAvatar {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1f5f57 0%, #123f46 100%);
+  color: #edf7f4;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.profileAvatarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid rgba(30, 83, 76, 0.24);
+  border-radius: 8px;
+  background: rgba(31, 95, 87, 0.08);
+  color: #1f5f57;
+  font: inherit;
+  font-size: 0.84rem;
+  line-height: 1;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .identityList {
@@ -35,10 +74,11 @@
 }
 
 .identityItem {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(300px, max-content) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: start;
+  column-gap: 14px;
   padding: 10px 0;
 }
 
@@ -86,6 +126,19 @@
   margin: 0;
   font-size: 1.1rem;
   color: #2a241f;
+}
+
+.passwordModalTrigger {
+  min-height: 44px;
+  width: fit-content;
+  padding: 0 16px;
+  border: 1px solid rgba(30, 83, 76, 0.24);
+  border-radius: 12px;
+  background: rgba(31, 95, 87, 0.08);
+  color: #1f5f57;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .form {
@@ -316,10 +369,23 @@
   color: #f4fbfa;
 }
 
+.modalConfirm:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .identityEdit:hover {
     background: rgba(31, 95, 87, 0.16);
     border-color: rgba(30, 83, 76, 0.34);
+  }
+
+  .profileAvatarButton:hover {
+    background: rgba(31, 95, 87, 0.14);
+  }
+
+  .passwordModalTrigger:hover {
+    background: rgba(31, 95, 87, 0.14);
   }
 
   .submit:hover:not(:disabled) {
@@ -344,6 +410,11 @@
 }
 
 @media (max-width: 760px) {
+  .profileTop {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .modal {
     padding: 22px 18px;
   }
@@ -361,4 +432,5 @@
   .modalConfirm {
     flex: 1;
   }
+
 }

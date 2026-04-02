@@ -1,8 +1,7 @@
 "use client"
 
-import Link from "next/link"
-import { useMemo, useState } from "react"
-import { LanguageSwitcher } from "../components/LanguageSwitcher"
+import { useEffect, useMemo, useState } from "react"
+import { Button } from "../components/Button"
 import { useI18n } from "../providers/I18nProvider"
 import styles from "./page.module.css"
 
@@ -27,19 +26,43 @@ const getErrorMessage = async (
 }
 
 export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
-  const { t } = useI18n()
+  const { t, locale, locales, setLocale } = useI18n()
   const apiUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
     []
   )
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [feedback, setFeedback] = useState("")
+  const [resolvedEmail, setResolvedEmail] = useState<string | null>(email)
   const [feedbackType, setFeedbackType] = useState<"success" | "error">(
     "success"
   )
 
+  useEffect(() => {
+    const browserLocale = window.navigator.language.toLowerCase().split("-")[0]
+    const nextLocale = locales.includes(browserLocale as (typeof locales)[number])
+      ? (browserLocale as (typeof locales)[number])
+      : "en"
+
+    if (nextLocale !== locale) {
+      setLocale(nextLocale)
+    }
+  }, [locale, locales, setLocale])
+
+  useEffect(() => {
+    if (email) {
+      setResolvedEmail(email)
+      return
+    }
+
+    const queryEmail = new URLSearchParams(window.location.search).get("email")
+    setResolvedEmail(
+      queryEmail && queryEmail.trim().length > 0 ? queryEmail : null
+    )
+  }, [email])
+
   const handleResend = async (): Promise<void> => {
-    if (!email || isSubmitting) {
+    if (!resolvedEmail || isSubmitting) {
       return
     }
 
@@ -53,7 +76,7 @@ export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
           "content-type": "application/json"
         },
         credentials: "include",
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email: resolvedEmail })
       })
 
       if (!response.ok) {
@@ -75,14 +98,12 @@ export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
   return (
     <main className={styles.shell}>
       <section className={styles.card}>
-        <LanguageSwitcher />
-        <p className={styles.kicker}>{t("checkEmail.kicker")}</p>
         <h1>{t("checkEmail.title")}</h1>
         <p className={styles.lead}>{t("checkEmail.lead")}</p>
 
-        {email ? (
+        {resolvedEmail ? (
           <p className={styles.target}>
-            {t("checkEmail.sentTo")} <strong>{email}</strong>
+            {t("checkEmail.sentTo")} <strong>{resolvedEmail}</strong>
           </p>
         ) : null}
 
@@ -105,20 +126,17 @@ export const CheckEmailClient = ({ email }: CheckEmailClientProps) => {
         ) : null}
 
         <div className={styles.actions}>
-          <button
-            className={styles.ghost}
+          <Button
+            variant="secondary"
             type="button"
             onClick={handleResend}
-            disabled={!email || isSubmitting}
+            disabled={!resolvedEmail || isSubmitting}
           >
             {isSubmitting ? t("checkEmail.resending") : t("checkEmail.resend")}
-          </button>
-          <Link className={styles.primary} href="/login">
+          </Button>
+          <Button variant="primary" href="/login">
             {t("common.goToLogin")}
-          </Link>
-          <Link className={styles.secondary} href="/register">
-            {t("common.backToRegister")}
-          </Link>
+          </Button>
         </div>
       </section>
     </main>

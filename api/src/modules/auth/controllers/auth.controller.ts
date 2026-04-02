@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Get,
+  Patch,
   Body,
   UsePipes,
   Inject,
@@ -28,6 +29,7 @@ import {
 } from "../../../dto/authentication.dto"
 import { AuthenticationResultDto } from "../../../dto/authenticationResult.dto"
 import { ChangeAuthenticatedPasswordDto } from "../../../dto/changeAuthenticatedPassword.dto"
+import { UpdateCurrentUserDto } from "../../../dto/updateCurrentUser.dto"
 import { UserDto } from "../../../dto/user.dto"
 import { AuthenticateService } from "../services/authentication/authenticate.service"
 import { ChangeAuthenticatedPasswordService } from "../services/authentication/changeAuthenticatedPassword.service"
@@ -46,6 +48,7 @@ import { LoginRateLimitGuard } from "../guards/rateLimit.guard"
 import { User } from "../entities/user"
 import { CreateUserService } from "../../users/services/users/createUser.service"
 import { GetUserByEmailService } from "../../users/services/users/getUserByEmail.service"
+import { UpdateUserService } from "../../users/services/users/updateUser.service"
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -59,6 +62,8 @@ export class AuthController {
     private readonly createUserService: CreateUserService,
     @Inject(GetUserByEmailService)
     private readonly getUserByEmailService: GetUserByEmailService,
+    @Inject(UpdateUserService)
+    private readonly updateUserService: UpdateUserService,
     @Inject(SendEmailVerificationService)
     private readonly sendEmailVerificationService: SendEmailVerificationService,
     @Inject(ChangeAuthenticatedPasswordService)
@@ -202,6 +207,31 @@ export class AuthController {
   @HttpCode(200)
   public getMe(@CurrentUser() currentUser: UserDto): UserDto {
     return currentUser
+  }
+
+  @ApiOperation({
+    description:
+      "updates the authenticated user's profile (first and last name only)"
+  })
+  @ApiOkResponse({
+    description: "authenticated user updated",
+    type: UserDto
+  })
+  @ApiBadRequestResponse({ description: "invalid data provided" })
+  @UsePipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true
+    })
+  )
+  @UseGuards(JwtGuard)
+  @Patch("/me")
+  @HttpCode(200)
+  public async updateMe(
+    @CurrentUser() currentUser: UserDto,
+    @Body() payload: UpdateCurrentUserDto
+  ): Promise<UserDto> {
+    return await this.updateUserService.execute(currentUser.id, payload)
   }
 
   @ApiOperation({

@@ -71,43 +71,6 @@
   flex-wrap: wrap;
 }
 
-.primary,
-.secondary,
-.ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0 18px;
-  border-radius: 14px;
-  text-decoration: none;
-  font-weight: 600;
-  font: inherit;
-  cursor: pointer;
-}
-
-.primary {
-  background: linear-gradient(135deg, #a6531f 0%, #7e3f18 100%);
-  color: #fff6ee;
-}
-
-.secondary {
-  border: 1px solid rgba(35, 31, 26, 0.15);
-  background: #fffdfa;
-  color: #3c342c;
-}
-
-.ghost {
-  border: 1px solid rgba(35, 31, 26, 0.2);
-  background: rgba(255, 255, 255, 0.4);
-  color: #302920;
-}
-
-.ghost:disabled {
-  opacity: 0.65;
-  cursor: wait;
-}
-
 .feedback {
   margin: 0;
   padding: 12px 14px;

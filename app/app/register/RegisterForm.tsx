@@ -37,7 +37,7 @@ const getErrorMessage = async (
 
 export const RegisterForm = () => {
   const router = useRouter()
-  const { t } = useI18n()
+  const { t, locale, locales, setLocale } = useI18n()
   const { isAuthenticated, isHydrated } = useAuth()
   const apiUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000",
@@ -60,6 +60,17 @@ export const RegisterForm = () => {
       router.replace("/")
     }
   }, [isAuthenticated, isHydrated, router])
+
+  useEffect(() => {
+    const browserLocale = window.navigator.language.toLowerCase().split("-")[0]
+    const nextLocale = locales.includes(browserLocale as (typeof locales)[number])
+      ? (browserLocale as (typeof locales)[number])
+      : "en"
+
+    if (nextLocale !== locale) {
+      setLocale(nextLocale)
+    }
+  }, [locale, locales, setLocale])
 
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
