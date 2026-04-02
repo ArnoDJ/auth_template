@@ -21,6 +21,7 @@ import { AccountLockoutService } from "./services/authentication/accountLockout.
 import { AlterPasswordService } from "./services/password-reset/alterPassword.service"
 import { AuthenticateService } from "./services/authentication/authenticate.service"
 import { BuildAccessTokenService } from "./services/authentication/buildAccessToken.service"
+import { ChangeAuthenticatedPasswordService } from "./services/authentication/changeAuthenticatedPassword.service"
 import { SendEmailVerificationService } from "./services/authentication/sendEmailVerification.service"
 import { VerifyEmailService } from "./services/authentication/verifyEmail.service"
 import { BuildCookieWithCsrfTokenService } from "./services/csrf/buildCookieWithCsrfToken.service"
@@ -62,6 +63,7 @@ import { TypeOrmModule } from "@nestjs/typeorm"
   providers: [
     BuildCookieWithRefreshTokenService,
     AuthenticateService,
+    ChangeAuthenticatedPasswordService,
     SendEmailVerificationService,
     VerifyEmailService,
     JwtStrategy,

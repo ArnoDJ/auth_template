@@ -1,0 +1,133 @@
+.shell {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(27, 94, 84, 0.25), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(198, 118, 56, 0.24), transparent 32%),
+    linear-gradient(160deg, #f6efe4 0%, #efe2d3 52%, #dce7df 100%);
+}
+
+.card {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 560px);
+  padding: 32px;
+  border: 1px solid rgba(30, 30, 30, 0.08);
+  border-radius: 28px;
+  background: rgba(255, 254, 250, 0.92);
+  box-shadow: 0 24px 80px rgba(50, 43, 35, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.kicker {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1f5f57;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #191511;
+}
+
+.lead {
+  margin: 0;
+  color: #5f554a;
+  line-height: 1.7;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2a241f;
+}
+
+.field input {
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(42, 36, 31, 0.12);
+  border-radius: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  font: inherit;
+  color: #1d1914;
+}
+
+.field input:focus {
+  border-color: rgba(31, 95, 87, 0.58);
+  box-shadow: 0 0 0 4px rgba(31, 95, 87, 0.12);
+}
+
+.error,
+.success {
+  padding: 14px 16px;
+  border-radius: 16px;
+  line-height: 1.6;
+}
+
+.error {
+  border: 1px solid rgba(165, 52, 42, 0.18);
+  background: rgba(203, 84, 68, 0.1);
+  color: #8a2518;
+}
+
+.success {
+  border: 1px solid rgba(32, 108, 87, 0.18);
+  background: rgba(31, 95, 87, 0.08);
+  color: #184941;
+}
+
+.submit {
+  min-height: 54px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1f5f57 0%, #123f46 100%);
+  color: #f8f0e4;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.95rem;
+}
+
+.links a {
+  color: #275f63;
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: 24px;
+  }
+
+  .links {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -100,7 +100,7 @@
 }
 
 .eyebrow {
-  color: #8a4617;
+  color: #1f5f57;
 }
 
 .formHeader h2 {
@@ -118,6 +118,12 @@
 .form {
   display: grid;
   gap: 16px;
+}
+
+.divider {
+  margin: 2px 0;
+  border: 0;
+  border-top: 1px solid rgba(42, 36, 31, 0.12);
 }
 
 .row {
@@ -152,8 +158,46 @@
 }
 
 .field input:focus {
-  border-color: rgba(138, 70, 23, 0.52);
-  box-shadow: 0 0 0 4px rgba(138, 70, 23, 0.12);
+  border-color: rgba(31, 95, 87, 0.58);
+  box-shadow: 0 0 0 4px rgba(31, 95, 87, 0.12);
+}
+
+.passwordWrap {
+  position: relative;
+}
+
+.passwordInput {
+  width: 100%;
+  display: block;
+  padding-right: 54px !important;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  color: #3b332b;
+}
+
+.eyeIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.eyeIcon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .error,
@@ -179,8 +223,8 @@
   min-height: 54px;
   border: 0;
   border-radius: 18px;
-  background: linear-gradient(135deg, #a6531f 0%, #7e3f18 100%);
-  color: #fff6ee;
+  background: linear-gradient(135deg, #1f5f57 0%, #123f46 100%);
+  color: #f8f0e4;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -211,14 +255,14 @@
 }
 
 .footerLinks a {
-  color: #8a4617;
+  color: #275f63;
+  text-decoration: none;
 }
 
-.footerLinks span {
-  max-width: 20rem;
-  text-align: right;
-  color: #6b6258;
-  line-height: 1.5;
+@media (hover: hover) and (pointer: fine) {
+  .footerLinks a:hover {
+    text-decoration: underline;
+  }
 }
 
 @media (max-width: 960px) {
@@ -240,12 +284,6 @@
   }
 
   .footerLinks {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footerLinks span {
-    max-width: none;
-    text-align: left;
+    justify-content: flex-start;
   }
 }

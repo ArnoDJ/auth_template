@@ -8,6 +8,10 @@
     linear-gradient(135deg, #f8f0e4 0%, #efe5d8 46%, #dfe8de 100%);
 }
 
+.pageDashboard {
+  padding: 0;
+}
+
 .hero {
   display: grid;
   align-content: center;
@@ -24,15 +28,204 @@
 
 .dashboard {
   display: grid;
-  gap: 28px;
-  width: min(100%, 1080px);
-  margin: 0 auto;
-  padding: 56px;
-  border: 1px solid rgba(33, 33, 33, 0.08);
-  border-radius: 32px;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 20px 0 0;
+  border: 0;
+  border-radius: 0;
   background: rgba(253, 251, 247, 0.88);
-  box-shadow: 0 20px 60px rgba(61, 55, 44, 0.12);
+  box-shadow: none;
   backdrop-filter: blur(12px);
+}
+
+.dashboardCollapsed {
+  grid-template-columns: 84px 1fr;
+}
+
+.dashboardMain {
+  display: grid;
+  gap: 28px;
+  padding: 36px 36px 36px 12px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 26px 18px;
+  border-radius: 0;
+  background: linear-gradient(180deg, #1f5f57 0%, #123f46 100%);
+  color: #edf7f4;
+}
+
+.sidebarTop {
+  display: grid;
+  gap: 18px;
+}
+
+.sidebarBottom {
+  position: relative;
+  margin-top: auto;
+}
+
+.sidebarToggle {
+  justify-self: start;
+  display: grid;
+  gap: 4px;
+  width: 36px;
+  height: 32px;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+}
+
+.sidebarToggle span {
+  display: block;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(237, 247, 244, 0.96);
+}
+
+.sidebarBrand {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(237, 247, 244, 0.84);
+}
+
+.sidebarNav {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebarProfile {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  text-align: left;
+  text-decoration: none;
+  color: #edf7f4;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+
+.sidebarProfileText {
+  display: grid;
+  gap: 1px;
+  flex: 1;
+}
+
+.sidebarProfileText strong {
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.sidebarProfileText small {
+  font-size: 0.75rem;
+  color: rgba(237, 247, 244, 0.8);
+}
+
+.sidebarProfileChevron {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  transition: transform 140ms ease;
+}
+
+.sidebarProfileChevron svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebarProfileChevronOpen {
+  transform: rotate(180deg);
+}
+
+.sidebarItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: #edf7f4;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebarItemIcon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+}
+
+.sidebarItemIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebarItemLabel {
+  font-weight: 600;
+}
+
+.dashboardCollapsed .sidebar {
+  padding: 18px 10px;
+}
+
+.dashboardCollapsed .sidebarItem {
+  justify-content: center;
+  padding: 10px;
+}
+
+.dashboardCollapsed .sidebarProfile {
+  justify-content: center;
+  padding: 6px;
+}
+
+.dashboardCollapsed .sidebarItemLabel {
+  display: none;
+}
+
+.dashboardCollapsed .sidebarBottom {
+  display: grid;
+  justify-items: center;
+}
+
+.sidebarDropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 8px);
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  background: rgba(13, 45, 52, 0.94);
+}
+
+.sidebarDropdownItem {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 12px;
+  font: inherit;
+  text-decoration: none;
+  color: #edf7f4;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
 }
 
 .dashboardHeader {
@@ -228,6 +421,18 @@
     background: rgba(255, 255, 255, 0.9);
   }
 
+  .sidebarNav a:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .sidebarProfile:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .sidebarDropdownItem:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
   .tertiary:hover {
     background: rgba(255, 255, 255, 0.3);
   }
@@ -243,14 +448,46 @@
     padding: 16px;
   }
 
+  .pageDashboard {
+    padding: 0;
+  }
+
   .hero {
     padding: 28px;
     border-radius: 24px;
   }
 
   .dashboard {
-    padding: 28px;
-    border-radius: 24px;
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .dashboardCollapsed {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboardMain {
+    padding: 0 12px;
+  }
+
+  .sidebar {
+    padding: 16px 0;
+    min-height: auto;
+    gap: 20px;
+  }
+
+  .sidebarTop {
+    padding: 0 12px;
+  }
+
+  .sidebarBottom {
+    margin: 0 12px;
+  }
+
+  .sidebarToggle {
+    justify-self: end;
+    margin-left: 0;
+    border-radius: 8px;
   }
 
   .dashboardHeader {

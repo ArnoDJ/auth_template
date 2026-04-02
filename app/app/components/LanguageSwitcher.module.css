@@ -1,23 +1,35 @@
 .switcher {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-}
-
-.label {
-  font-family: var(--font-ibm-plex-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #5f554a;
 }
 
 .select {
-  min-height: 36px;
-  border: 1px solid rgba(35, 31, 26, 0.18);
+  min-height: 34px;
+  min-width: 74px;
+  border: 1px solid rgba(18, 63, 70, 0.55);
   border-radius: 10px;
-  padding: 0 10px;
-  background: rgba(255, 255, 255, 0.88);
-  color: #1d1914;
+  padding: 0 28px 0 10px;
+  background: #1f5f57;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%23EDF7F4' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 8px;
+  color: #edf7f4;
   font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: 0 10px 24px rgba(16, 56, 63, 0.22);
+}
+
+.select:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(31, 95, 87, 0.26),
+    0 10px 24px rgba(16, 56, 63, 0.22);
+}
+
+.select option {
+  background: #1f5f57;
+  color: #edf7f4;
 }

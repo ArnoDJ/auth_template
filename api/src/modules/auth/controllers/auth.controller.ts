@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Get,
   Body,
   UsePipes,
   Inject,
@@ -26,7 +27,10 @@ import {
   ResendVerificationEmailDto
 } from "../../../dto/authentication.dto"
 import { AuthenticationResultDto } from "../../../dto/authenticationResult.dto"
+import { ChangeAuthenticatedPasswordDto } from "../../../dto/changeAuthenticatedPassword.dto"
+import { UserDto } from "../../../dto/user.dto"
 import { AuthenticateService } from "../services/authentication/authenticate.service"
+import { ChangeAuthenticatedPasswordService } from "../services/authentication/changeAuthenticatedPassword.service"
 import { SendEmailVerificationService } from "../services/authentication/sendEmailVerification.service"
 import { VerifyEmailService } from "../services/authentication/verifyEmail.service"
 import { BuildCookieWithRefreshTokenService } from "../services/refresh-token/buildCookieWithRefreshToken.service"
@@ -57,6 +61,8 @@ export class AuthController {
     private readonly getUserByEmailService: GetUserByEmailService,
     @Inject(SendEmailVerificationService)
     private readonly sendEmailVerificationService: SendEmailVerificationService,
+    @Inject(ChangeAuthenticatedPasswordService)
+    private readonly changeAuthenticatedPasswordService: ChangeAuthenticatedPasswordService,
     @Inject(VerifyEmailService)
     private readonly verifyEmailService: VerifyEmailService,
     @Inject(FindOrCreateRefreshTokenStateService)
@@ -112,7 +118,12 @@ export class AuthController {
   })
   @ApiBadRequestResponse({ description: "invalid data provided" })
   @ApiConflictResponse({ description: "email already exists" })
-  @UsePipes(new ValidationPipe())
+  @UsePipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true
+    })
+  )
   @Post("/register")
   @HttpCode(200)
   public async register(
@@ -177,6 +188,44 @@ export class AuthController {
       currentUser.id,
       userAgent ?? "unknown"
     )
+  }
+
+  @ApiOperation({
+    description: "returns the currently authenticated user"
+  })
+  @ApiOkResponse({
+    description: "authenticated user returned",
+    type: UserDto
+  })
+  @UseGuards(JwtGuard)
+  @Get("/me")
+  @HttpCode(200)
+  public getMe(@CurrentUser() currentUser: UserDto): UserDto {
+    return currentUser
+  }
+
+  @ApiOperation({
+    description: "changes the authenticated user's password"
+  })
+  @ApiOkResponse({
+    description: "password changed successfully"
+  })
+  @ApiBadRequestResponse({ description: "invalid data provided" })
+  @UsePipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true
+    })
+  )
+  @UseGuards(JwtGuard)
+  @Post("/change-password")
+  @HttpCode(200)
+  public async changePassword(
+    @CurrentUser() currentUser: User,
+    @Body() payload: ChangeAuthenticatedPasswordDto
+  ): Promise<{ message: string }> {
+    await this.changeAuthenticatedPasswordService.execute(currentUser, payload)
+    return { message: "password changed" }
   }
 
   private buildRefreshTokenCookie(refreshToken: string): string {

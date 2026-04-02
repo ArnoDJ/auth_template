@@ -151,6 +151,23 @@ describe("AuthController (E2E)", () => {
       .expect(409)
   })
 
+  it("rejects register payloads that try to set admin explicitly", async () => {
+    const email = `register-admin-${randomUUID()}@test.com`
+
+    await request(getHttpServer(context.app))
+      .post("/auth/register")
+      .set("user-agent", userAgent)
+      .send({
+        firstName: "Tony",
+        lastName: "Stark",
+        email,
+        password: "Password123!",
+        passwordConfirmation: "Password123!",
+        admin: true
+      })
+      .expect(400)
+  })
+
   it("resends verification email for inactive accounts", async () => {
     const user = await createUser("Password123!", false)
 

@@ -1,0 +1,364 @@
+.profilePanel {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 760px);
+  padding: 32px;
+  border: 1px solid rgba(33, 33, 33, 0.08);
+  border-radius: 24px;
+  background: rgba(253, 251, 247, 0.9);
+}
+
+.kicker {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b4d21;
+}
+
+.profilePanel h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.lead {
+  margin: 0;
+  color: #51473b;
+  line-height: 1.7;
+}
+
+.identityList {
+  display: grid;
+  gap: 8px;
+}
+
+.identityItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.identityText {
+  display: grid;
+  gap: 4px;
+}
+
+.identityText span {
+  color: #6e655c;
+  font-size: 0.92rem;
+}
+
+.identityText strong {
+  color: #1f1b16;
+  font-size: 1.06rem;
+  font-weight: 600;
+}
+
+.identityEdit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(30, 83, 76, 0.24);
+  border-radius: 10px;
+  background: rgba(31, 95, 87, 0.08);
+  color: #1f5f57;
+  cursor: pointer;
+}
+
+.identityEdit svg {
+  width: 17px;
+  height: 17px;
+}
+
+.settingsSection {
+  display: grid;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.settingsSection h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2a241f;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2a241f;
+}
+
+.field input {
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(42, 36, 31, 0.12);
+  border-radius: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.92);
+  font: inherit;
+  color: #1d1914;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.field input:focus {
+  border-color: rgba(31, 95, 87, 0.58);
+  box-shadow: 0 0 0 4px rgba(31, 95, 87, 0.12);
+}
+
+.passwordWrap {
+  position: relative;
+}
+
+.passwordInput {
+  width: 100%;
+  display: block;
+  padding-right: 52px !important;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: #3b332b;
+  cursor: pointer;
+}
+
+.eyeIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+}
+
+.eyeIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.error,
+.success {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  line-height: 1.5;
+}
+
+.error {
+  border: 1px solid rgba(165, 52, 42, 0.18);
+  background: rgba(203, 84, 68, 0.1);
+  color: #8a2518;
+}
+
+.success {
+  border: 1px solid rgba(32, 108, 87, 0.18);
+  background: rgba(31, 95, 87, 0.08);
+  color: #184941;
+}
+
+.submit {
+  min-height: 52px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1f5f57 0%, #123f46 100%);
+  color: #f8f0e4;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    filter 160ms ease,
+    opacity 160ms ease;
+}
+
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(13, 35, 42, 0.52);
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: min(100%, 640px);
+  padding: 28px;
+  border: 1px solid rgba(20, 59, 66, 0.18);
+  border-radius: 22px;
+  background: #fff;
+  color: #1d1914;
+  box-shadow: 0 24px 70px rgba(19, 38, 43, 0.2);
+}
+
+.modal h2 {
+  margin: 0;
+  font-size: clamp(1.9rem, 4.2vw, 2.8rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #1f1b16;
+}
+
+.modalClose {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: #4c443c;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modalForm {
+  display: grid;
+  gap: 12px;
+}
+
+.modalField {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.modalField span {
+  font-size: 1.02rem;
+  color: #5a5248;
+}
+
+.modalField p {
+  margin: 0;
+  color: #1f1b16;
+  font-size: 1.03rem;
+}
+
+.modalField input {
+  min-height: 46px;
+  width: 100%;
+  padding: 0 14px;
+  border: 1px solid rgba(40, 68, 75, 0.2);
+  border-radius: 10px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.96);
+  color: #201c17;
+  font: inherit;
+}
+
+.modalField input::placeholder {
+  color: rgba(81, 73, 65, 0.56);
+}
+
+.modalField input:focus {
+  border-color: rgba(96, 232, 205, 0.78);
+  box-shadow: 0 0 0 3px rgba(96, 232, 205, 0.18);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modalCancel,
+.modalConfirm {
+  min-height: 44px;
+  min-width: 112px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modalCancel {
+  border: 1px solid rgba(40, 68, 75, 0.24);
+  background: transparent;
+  color: #334f56;
+}
+
+.modalConfirm {
+  border: 1px solid rgba(13, 56, 64, 0.2);
+  background: linear-gradient(135deg, #1f5f57 0%, #123f46 100%);
+  color: #f4fbfa;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .identityEdit:hover {
+    background: rgba(31, 95, 87, 0.16);
+    border-color: rgba(30, 83, 76, 0.34);
+  }
+
+  .submit:hover:not(:disabled) {
+    filter: saturate(1.55) brightness(1.2) contrast(1.1);
+  }
+
+  .modalCancel:hover,
+  .modalConfirm:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.link {
+  color: #1f5f57;
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 760px) {
+  .modal {
+    padding: 22px 18px;
+  }
+
+  .modalField {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .modalActions {
+    justify-content: stretch;
+  }
+
+  .modalCancel,
+  .modalConfirm {
+    flex: 1;
+  }
+}

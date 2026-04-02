@@ -49,6 +49,9 @@ export const RegisterForm = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false)
   const [error, setError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -180,34 +183,150 @@ export const RegisterForm = () => {
               />
             </label>
 
+            <hr className={styles.divider} />
+
             <label className={styles.field}>
               <span>{t("register.password")}</span>
-              <input
-                type="password"
-                name="password"
-                autoComplete="new-password"
-                placeholder={t("register.passwordPlaceholder")}
-                value={password}
-                onChange={(event) => {
-                  setPassword(event.target.value)
-                }}
-                required
-              />
+              <div className={styles.passwordWrap}>
+                <input
+                  className={styles.passwordInput}
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  autoComplete="new-password"
+                  placeholder={t("register.passwordPlaceholder")}
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value)
+                  }}
+                  required
+                />
+                <button
+                  className={styles.passwordToggle}
+                  type="button"
+                  aria-label={
+                    showPassword
+                      ? t("common.hidePassword")
+                      : t("common.showPassword")
+                  }
+                  onClick={() => {
+                    setShowPassword((value) => !value)
+                  }}
+                >
+                  <span className={styles.eyeIcon} aria-hidden="true">
+                    {showPassword ? (
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M3 4.5L20 21"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M10.58 10.58A2 2 0 0013.42 13.42"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M9.88 5.09A10.94 10.94 0 0112 4.9c5.3 0 8.73 3.4 10 7.1a11.96 11.96 0 01-3.16 4.93M6.65 7.65A12.17 12.17 0 002 12c1.27 3.7 4.7 7.1 10 7.1 1.77 0 3.34-.38 4.72-1.01"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M2 12c1.27-3.7 4.7-7.1 10-7.1S20.73 8.3 22 12c-1.27 3.7-4.7 7.1-10 7.1S3.27 15.7 2 12Z"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinejoin="round"
+                        />
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="3.1"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                </button>
+              </div>
             </label>
 
             <label className={styles.field}>
               <span>{t("register.confirmPassword")}</span>
-              <input
-                type="password"
-                name="passwordConfirmation"
-                autoComplete="new-password"
-                placeholder={t("register.confirmPasswordPlaceholder")}
-                value={passwordConfirmation}
-                onChange={(event) => {
-                  setPasswordConfirmation(event.target.value)
-                }}
-                required
-              />
+              <div className={styles.passwordWrap}>
+                <input
+                  className={styles.passwordInput}
+                  type={showPasswordConfirmation ? "text" : "password"}
+                  name="passwordConfirmation"
+                  autoComplete="new-password"
+                  placeholder={t("register.confirmPasswordPlaceholder")}
+                  value={passwordConfirmation}
+                  onChange={(event) => {
+                    setPasswordConfirmation(event.target.value)
+                  }}
+                  required
+                />
+                <button
+                  className={styles.passwordToggle}
+                  type="button"
+                  aria-label={
+                    showPasswordConfirmation
+                      ? t("common.hidePassword")
+                      : t("common.showPassword")
+                  }
+                  onClick={() => {
+                    setShowPasswordConfirmation((value) => !value)
+                  }}
+                >
+                  <span className={styles.eyeIcon} aria-hidden="true">
+                    {showPasswordConfirmation ? (
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M3 4.5L20 21"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M10.58 10.58A2 2 0 0013.42 13.42"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M9.88 5.09A10.94 10.94 0 0112 4.9c5.3 0 8.73 3.4 10 7.1a11.96 11.96 0 01-3.16 4.93M6.65 7.65A12.17 12.17 0 002 12c1.27 3.7 4.7 7.1 10 7.1 1.77 0 3.34-.38 4.72-1.01"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M2 12c1.27-3.7 4.7-7.1 10-7.1S20.73 8.3 22 12c-1.27 3.7-4.7 7.1-10 7.1S3.27 15.7 2 12Z"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinejoin="round"
+                        />
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="3.1"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                </button>
+              </div>
             </label>
 
             {error ? <p className={styles.error}>{error}</p> : null}
@@ -223,7 +342,6 @@ export const RegisterForm = () => {
 
           <div className={styles.footerLinks}>
             <Link href="/login">{t("register.alreadyAccount")}</Link>
-            <span>{t("register.verifyInfo")}</span>
           </div>
         </div>
       </section>

@@ -6,7 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState
+  useSyncExternalStore
 } from "react"
 import {
   defaultLocale,
@@ -17,6 +17,7 @@ import {
 } from "../i18n/translations"
 
 const localeStorageKey = "auth-template.locale"
+const localeChangeEvent = "auth-template-locale-change"
 
 type I18nContextValue = {
   locale: Locale
@@ -44,7 +45,7 @@ const normalizeLocale = (candidate: string | null | undefined): Locale => {
 export const I18nProvider = ({
   children
 }: Readonly<{ children: ReactNode }>) => {
-  const [locale, setLocaleState] = useState<Locale>(() => {
+  const readStoredLocale = (): Locale => {
     if (typeof window === "undefined") {
       return defaultLocale
     }
@@ -52,20 +53,50 @@ export const I18nProvider = ({
     const stored = window.localStorage.getItem(localeStorageKey)
     const browserLocale = window.navigator.language
     return normalizeLocale(stored ?? browserLocale)
-  })
+  }
+
+  const subscribeToLocale = (onStoreChange: () => void): (() => void) => {
+    if (typeof window === "undefined") {
+      return () => undefined
+    }
+
+    const handleStorage = (event: StorageEvent): void => {
+      if (event.key === null || event.key === localeStorageKey) {
+        onStoreChange()
+      }
+    }
+
+    const handleLocaleChange = (): void => {
+      onStoreChange()
+    }
+
+    window.addEventListener("storage", handleStorage)
+    window.addEventListener(localeChangeEvent, handleLocaleChange)
+
+    return () => {
+      window.removeEventListener("storage", handleStorage)
+      window.removeEventListener(localeChangeEvent, handleLocaleChange)
+    }
+  }
+
+  const locale = useSyncExternalStore(
+    subscribeToLocale,
+    readStoredLocale,
+    () => defaultLocale
+  )
 
   useEffect(() => {
     if (typeof window === "undefined") {
       return
     }
 
-    window.localStorage.setItem(localeStorageKey, locale)
     document.documentElement.lang = locale
   }, [locale])
 
   const value = useMemo<I18nContextValue>(() => {
     const setLocale = (nextLocale: Locale): void => {
-      setLocaleState(nextLocale)
+      window.localStorage.setItem(localeStorageKey, nextLocale)
+      window.dispatchEvent(new Event(localeChangeEvent))
     }
 
     const t = (key: keyof typeof translations.en): string => {
